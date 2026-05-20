@@ -112,12 +112,19 @@ public_users.get('/isbn-async/:isbn', async function (req, res) {
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   const author = req.params.author;
+  let book_s = []
   for (const isbn in books) {
     if (books[isbn].author === author) {
-      return res.status(200).json(books[isbn]);
+      book_s.push(books[isbn])
+      
     }
   }
-  return res.status(404).json({ message: "No books found for that author" });
+  if (book_s.length > 0){
+    return res.status(200).json(book_s);
+  }else{
+    return res.status(404).json({ message: "No books found for that author" });
+  }
+  
 });
 
 // Get book details based on author using Axios Promise callbacks
